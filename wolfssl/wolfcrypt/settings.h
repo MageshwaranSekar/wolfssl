@@ -309,8 +309,8 @@
     #include "pico_config.h"
     #define STRING_USER
     #define XMALLOC_USER
-    #define XMALLOC(s, h, type)  myMalloc(s)
-    #define XFREE(p, h, type)    myFree(p)
+    #define XMALLOC(s, h, type)  PICO_ZALLOC(s)
+    #define XFREE(p, h, type)    PICO_FREE(p)
     #define XMEMCPY(d,s,l) memcpy(d,s,l)
     #define XMEMSET(b, s, l) memset(b, s, l)
     #define XSTRLEN(s) strlen(s)
