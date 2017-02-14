@@ -295,6 +295,37 @@
     #define CUSTOM_RAND_GENERATE pico_rand
 #endif
 
+#ifdef WOLFSSL_PICOTCP_PIP
+    #ifndef errno
+        #define errno pico_err
+    #endif
+    #include <stddef.h>
+    extern int strncmp(const char *s1, const char *s2, size_t n);
+    extern char *strstr(const char *str, const char *pattern);
+    extern void *memmove(void *str1, const void *str2, size_t n);
+    extern char *strnstr(const char *str, const char *pattern, size_t len);
+    extern char *strncpy(char *dest, const char *src, size_t n);
+    extern int myrand();
+    #include "pico_config.h"
+    #define STRING_USER
+    #define XMALLOC_USER
+    #define XMALLOC(s, h, type)  myMalloc(s)
+    #define XFREE(p, h, type)    myFree(p)
+    #define XMEMCPY(d,s,l) memcpy(d,s,l)
+    #define XMEMSET(b, s, l) memset(b, s, l)
+    #define XSTRLEN(s) strlen(s)
+    #define XMEMCMP(s1, s2, l) memcmp(s1, s2, l)
+    #define XSTRNCMP(s1, s2, n) strncmp(s1, s2, n)
+    #define XSTRSTR(str, pattern) strstr(str, pattern)
+    #define XMEMMOVE(s1, s2, n) memmove(s1, s2, n)
+    #define XSTRNSTR(str, pattern, len) strnstr(str, pattern, len)
+    #define XSTRNCPY(d, s, n) strncpy(d, s, n)
+    //#define SINGLE_THREADED
+    #define NO_WRITEV
+    #define NO_FILESYSTEM
+    #define CUSTOM_RAND_GENERATE myrand
+#endif
+
 #ifdef WOLFSSL_PICOTCP_DEMO
     #define WOLFSSL_STM32
     #define USE_FAST_MATH
