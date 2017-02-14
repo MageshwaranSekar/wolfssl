@@ -323,6 +323,7 @@
     //#define SINGLE_THREADED
     #define NO_WRITEV
     #define NO_FILESYSTEM
+    #define NO_DEV_RANDOM
     #define CUSTOM_RAND_GENERATE myrand
 #endif
 
