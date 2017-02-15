@@ -300,15 +300,14 @@
         #define errno pico_err
     #endif
     #include <stddef.h>
-    extern int strncmp(const char *s1, const char *s2, size_t n);
-    extern char *strstr(const char *str, const char *pattern);
-    extern void *memmove(void *str1, const void *str2, size_t n);
-    extern char *strnstr(const char *str, const char *pattern, size_t len);
-    extern char *strncpy(char *dest, const char *src, size_t n);
-    extern int myrand();
     #include "pico_config.h"
+
+    extern int myrand();
+    
+    #define WOLFSSL_USER_IO
     #define STRING_USER
     #define XMALLOC_USER
+    #define USER_MATH_LIB
     #define XMALLOC(s, h, type)  PICO_ZALLOC(s)
     #define XFREE(p, h, type)    PICO_FREE(p)
     #define XMEMCPY(d,s,l) memcpy(d,s,l)
@@ -320,11 +319,21 @@
     #define XMEMMOVE(s1, s2, n) memmove(s1, s2, n)
     #define XSTRNSTR(str, pattern, len) strnstr(str, pattern, len)
     #define XSTRNCPY(d, s, n) strncpy(d, s, n)
+    #define CTYPE_USER
+
+    #if defined(HAVE_ECC) || defined(HAVE_OCSP) || defined(WOLFSSL_KEY_GEN)
+        #define XTOUPPER(c)     toupper(c)
+        #define XISALPHA(c)     isalpha(c)
+    #endif
+    /* needed by wolfSSL_check_domain_name() */
+    #define XTOLOWER(c)      tolower((c))
     //#define SINGLE_THREADED
+    #define NO_ASN_TIME
     #define NO_WRITEV
     #define NO_FILESYSTEM
     #define NO_DEV_RANDOM
     #define CUSTOM_RAND_GENERATE myrand
+    #define puts(x)
 #endif
 
 #ifdef WOLFSSL_PICOTCP_DEMO

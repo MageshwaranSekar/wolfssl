@@ -95,7 +95,7 @@
         #elif defined(EBSNET)
             #include "rtipapi.h"  /* errno */
             #include "socket.h"
-        #elif !defined(DEVKITPRO) && !defined(WOLFSSL_PICOTCP)
+        #elif !defined(DEVKITPRO) && !defined(WOLFSSL_PICOTCP) && !defined(WOLFSSL_PICOTCP_PIP)
             #include <sys/socket.h>
             #include <arpa/inet.h>
             #include <netinet/in.h>
@@ -207,7 +207,7 @@
 #elif defined(WOLFSSL_LWIP)
     #define SEND_FUNCTION lwip_send
     #define RECV_FUNCTION lwip_recv
-#elif defined(WOLFSSL_PICOTCP)
+#elif defined(WOLFSSL_PICOTCP) || defined(WOLFSSL_PICOTCP_PIP)
     #define SEND_FUNCTION pico_send
     #define RECV_FUNCTION pico_recv
 #elif defined(FREERTOS_TCP)

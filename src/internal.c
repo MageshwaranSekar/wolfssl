@@ -4726,6 +4726,11 @@ ProtocolVersion MakeDTLSv1_2(void)
         return (word32)(uTaskerSystemTick / TICK_RESOLUTION);
     }
 
+#elif defined(WOLFSSL_PICOTCP_PIP)
+    extern uint32_t pip_time(); //we assume its in ms
+    word32 LowResTimer(void){
+        return (word32)(pip_time()/1000);
+    }
 #else
     /* Posix style time */
     #include <time.h>

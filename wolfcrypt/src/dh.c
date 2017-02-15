@@ -44,8 +44,14 @@
     #include <math.h>
     #define XPOW(x,y) pow((x),(y))
     #define XLOG(x)   log((x))
-#else
-    /* user's own math lib */
+#elif defined(USER_MATH_LIB) && !defined(WOLFSSL_DH_CONST)
+    /* custom math lib */
+    extern double pow(double x, double y);
+    extern double log(double x);
+
+    #define XPOW(x,y) pow(x,y)
+    #define XLOG(x)   log(x)
+
 #endif
 
 
